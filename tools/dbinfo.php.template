@@ -1,0 +1,19 @@
+<?php
+
+// Data Source Name (DSN) required to connect to the MySQL database
+// *Required*
+// HOST
+// DBNAME
+define("DB_DSN", "mysql:host=HOST;dbname=DBNAME;charset=utf8");
+
+// User's username that can access the database
+// *Required*
+// USERNAME
+define("DB_USER", "USERNAME");
+
+// User's password required to access the database
+// *Required*
+// PASSWORD
+define("DB_PASS", "PASSWORD");
+
+?>
