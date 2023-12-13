@@ -5,7 +5,7 @@ if (!$_GET || !isset($_GET["id"])) {
     exit();
 }
 
-require("admin/connect.php");
+require("connect.php");
 
 $team_id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 
