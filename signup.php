@@ -4,7 +4,7 @@ session_start();
 
 $invalid = "";
 
-if (isset($_SESSION["login"]) && $_SESSION["level"] < 2) {
+if (isset($_SESSION["signin"]) && $_SESSION["level"] < 2) {
     header("Location: index.php");
     exit();
 } else if (isset($_SESSION["invalid"])) {
@@ -12,7 +12,7 @@ if (isset($_SESSION["login"]) && $_SESSION["level"] < 2) {
     unset($_SESSION["invalid"]);
 }
 
-require("admin/connect.php");
+require("tools/connect.php");
 
 if ($_POST && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm_password"])) {
     switch (true) {
@@ -36,7 +36,7 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POS
     }
 
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+    $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $confirm_password = filter_input(INPUT_POST, "confirm_password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -48,7 +48,7 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POS
 
     if ($statement->rowCount()) {
         $_SESSION["invalid"] = "Username already exists!";
-    } else if (!$email) {
+    } else if (!filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL)) {
         $_SESSION["invalid"] = "Email is invalid!";
     } else if ($password !== $confirm_password) {
         $_SESSION["invalid"] = "Passwords does not match!";
@@ -77,11 +77,11 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POS
 
     $user = $statement->fetch();
     
-    if (isset($_SESSION["login"])) {
+    if (isset($_SESSION["signin"])) {
         header("Location: admin.php");
         exit();
     } else {
-        $_SESSION["login"] = true;
+        $_SESSION["signin"] = true;
         $_SESSION["user_id"] = $user["user_id"];
         $_SESSION["level"] = $user["level"];
         $_SESSION["username"] = $user["username"];
@@ -111,7 +111,7 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POS
                 <h2>Sign Up</h2>
 
                 <label for="username">Username:</label>
-                <input type="text" name="username" id="username">
+                <input type="text" name="username" id="username" autofocus>
 
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="email">
@@ -131,9 +131,9 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POS
                 </div>
             </form>
 
-            <?php if (!isset($_SESSION["login"])): ?>
+            <?php if (!isset($_SESSION["signin"])): ?>
                 <div class="form-link">
-                    <a href="login.php">Log In</a>
+                    <a href="signin.php">Sign In</a>
                 </div>
             <?php endif ?>
         </main>
