@@ -2,6 +2,8 @@
 
 session_start();
 
+require("tools/connect.php");
+
 if (!isset($_SESSION["error"])) {
     header("Location: index.php");
     exit();
@@ -17,7 +19,7 @@ unset($_SESSION["error"]);
 
 <head>
     <?php include("markup/head.php") ?>
-    <title>Error</title>
+    <title>Error Page</title>
 </head>
 
 <body>
