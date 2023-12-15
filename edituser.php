@@ -2,7 +2,7 @@
 
 session_start();
 
-require("admin/leveltwo.php");
+require("tools/leveltwo.php");
 require("tools/getuser.php");
 
 $query = "SELECT * FROM users ORDER BY level DESC";
@@ -47,7 +47,7 @@ if ($_POST && isset($_POST["command"]) && $_POST["command"] === "save") {
     }
 
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+    $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
     $level = filter_input(INPUT_POST, "level", FILTER_SANITIZE_NUMBER_INT);
 
     $query = "SELECT * FROM users WHERE username = :username";
@@ -58,7 +58,7 @@ if ($_POST && isset($_POST["command"]) && $_POST["command"] === "save") {
 
     if ($username !== $user["username"] && $statement->rowCount()) {
         $_SESSION["invalid"] = "Username already exists!";
-    } else if (!$email) {
+    } else if (!filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL)) {
         $_SESSION["invalid"] = "Email is invalid!";
     } else if ((int) $user_id === $top["user_id"]) {
         if ($level > $secondTop["level"]) {
@@ -124,7 +124,7 @@ if ($_POST && isset($_POST["command"]) && $_POST["command"] === "save") {
                 <h2>Edit User</h2>
 
                 <label for="username">Username:</label>
-                <input type="text" name="username" id="username" value="<?= $user["username"] ?>">
+                <input type="text" name="username" id="username" value="<?= $user["username"] ?>" autofocus>
 
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="email" value="<?= $user["email"] ?>">
