@@ -2,13 +2,15 @@
 
 session_start();
 
-require("admin/leveltwo.php");
-require("admin/connect.php");
+require("tools/leveltwo.php");
+require("tools/connect.php");
 
-$query = "SELECT * FROM users ORDER BY level DESC";
+$query = "SELECT * FROM users ORDER BY level DESC, username";
 
 $statement = $db->prepare($query);
 $statement->execute();
+
+$users = $statement->fetchAll();
 
 ?>
 
@@ -36,7 +38,7 @@ $statement->execute();
                     <th><a href="signup.php">Add User</a></th>
                 </tr>
                 
-                <?php while ($user = $statement->fetch()): ?>
+                <?php foreach ($users as $user): ?>
                     <tr>
                         <td>
                             <?= $user["user_id"] ?>
@@ -52,7 +54,7 @@ $statement->execute();
                         </td>
                         <td><a href="edituser.php?id=<?= $user["user_id"] ?>">Edit</a></td>
                     </tr>
-                <?php endwhile ?>
+                <?php endforeach ?>
             </table>
         </main>
     </div>
