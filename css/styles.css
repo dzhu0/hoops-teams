@@ -46,13 +46,9 @@ main {
 
 .footer {
     font-weight: bold;
+    text-align: center;
     color: black;
     margin-top: auto;
-}
-
-caption {
-    font-size: 24px;
-    font-weight: bold;
 }
 
 /* Navigation */
@@ -61,7 +57,15 @@ nav {
     margin-bottom: 0;
 }
 
+nav > ul {
+    margin-inline: auto;
+}
+
 /* Forms */
+
+form {
+    min-width: unset;
+}
 
 .form-checkbox {
     display: flex;
@@ -69,8 +73,14 @@ nav {
     gap: 10px;
 }
 
-.form input {
+.form input,
+.form select {
     width: 100%;
+}
+
+.form textarea {
+    width: 100%;
+    resize: none;
 }
 
 input[type="checkbox"] {
@@ -79,7 +89,7 @@ input[type="checkbox"] {
     margin: 0;
 }
 
-.form-sort {
+.form-horizontal {
     align-self: center;
     display: flex;
     align-items: baseline;
@@ -88,11 +98,11 @@ input[type="checkbox"] {
     margin-bottom: 48px;
 }
 
-.form-sort * {
+.form-horizontal * {
     margin: 0;
 }
 
-.form-sort>button {
+.form-horizontal>button {
     padding-block: 0;
     align-self: stretch;
 }
@@ -102,12 +112,20 @@ input[type="checkbox"] {
     padding: 10px;
 }
 
+.form.comment {
+    width: 80%;
+    max-width: 500px;
+    margin-top: 100px;
+}
+
 /* Buttons */
 
 .btns {
     display: flex;
     flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
     justify-content: space-around;
+    gap: 10px;
 }
 
 .btn-secondary {
@@ -188,27 +206,86 @@ details[open] summary:after {
     content: "\25BC";
 }
 
+/* Comments */
+
+.comments {
+    width: 80%;
+    max-width: 500px;
+    padding: 24px;
+    margin-top: 50px;
+}
+
+.comments a {
+    display: block;
+    text-align: right;
+}
+
+/* Default */
+
+caption {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+hr {
+    margin-block: 20px;
+}
+
+.center {
+    text-align: center;
+}
+
 /* Media Queries */
 
 @media (max-width: 420px) {
     /* Forms */
 
-    .form-sort {
+    .form-horizontal {
         flex-direction: column;
         align-items: center;
         min-width: unset;
     }
 
-    .form-sort>button {
+    .form-horizontal>button {
         padding-block: 5px;
     }
 }
 
 @media (max-width: 520px) {
+    /* Teams */
+
+    .teams {
+        grid-template-columns: 1fr;
+    }
+
     /* Logos */
 
+    .logo.big {
+        width: 100%;
+    }
+
     .no-logo {
-        width: 300px;
-        height: 300px;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1/1;
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 700px) {
+    /* Forms */
+
+    .form-search {
+        flex-direction: column;
+        align-items: center;
+        min-width: unset;
+    }
+
+    .form-search>button {
+        padding-block: 5px;
+    }
+
+    .form-search>* {
+        width: 100% !important;
     }
 }
