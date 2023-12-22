@@ -1,5 +1,5 @@
 {
-    "name": "daniel/hoops-teams",
+    "name": "dzhu0/hoops-teams",
     "type": "project",
     "require": {
         "gumlet/php-image-resize": "^2.0"
