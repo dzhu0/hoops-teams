@@ -74,6 +74,17 @@ if ($_POST && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POS
         exit();
     }
 
+    // Prevent users that are not signed in from signing up except admin user
+    if (!isset($_SESSION["signin"])) {
+
+        // If not signed in, set an error message in the session variable
+        $_SESSION["error"] = "Sorry, sign up is currently disabled!";
+
+        // Redirect the user to the error.php page
+        header("Location: error.php");
+        exit();
+    }
+
     // Insert user data into the database
     $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
 
